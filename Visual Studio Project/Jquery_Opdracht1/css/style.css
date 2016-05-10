@@ -1,0 +1,17 @@
+﻿html, body, #map-canvas {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#input {
+    width: 45vw;
+    height: 100%;
+    float: left;
+}
+
+#output {
+    width: 45vw;
+    float: left;
+    white-space: pre-wrap;
+}
