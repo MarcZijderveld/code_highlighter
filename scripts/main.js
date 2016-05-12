@@ -1,3 +1,3 @@
-﻿;(function ($) {
-    $("textarea").fancyHighlighter({ target: "#output", fontFamily: "Inconsolata", fontSize: "20px" });
-})(jQuery);
+﻿$(function ($) {
+    $("textarea").fancyHighlighter({ target: "#output", fontFamily: "Inconsolata", fontSize: "14px" });
+});

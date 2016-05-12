@@ -2,16 +2,19 @@
     height: 100%;
     margin: 0;
     padding: 0;
+	overflow: hidden;
 }
 
 #input {
-    width: 45vw;
+    width: 49vw;
     height: 100%;
     float: left;
 }
 
 #output {
-    width: 45vw;
+    width: 49vw;
+	height: 100%;
+	overflow-y: scroll;
     float: left;
     white-space: pre-wrap;
 }

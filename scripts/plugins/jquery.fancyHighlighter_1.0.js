@@ -1,18 +1,18 @@
-﻿//Settings variable
-var settings;
-
-//Collections of all the keywords that need to be highlighted.
-var operator = ["var ", "console", "this", "extends", "int ", "integer ", "string ", "double ", "byte ", "int32 ", "int16 ", "array ", "if", "else", "for", "while", "each", "new", "bool", "true", "false"],
-    nonKeyword = [";", "}", "{"],
-    method = ["function", "void", "public", "private", "interface", "abstract", "class"];
-
-(function ($)
+﻿(function ($)
 {
+	//Settings variable
+	var settings;
+
+	//Collections of all the keywords that need to be highlighted.
+	var operator = ["using", "return", "float", "var ", "console", "this", "extends", "int ", "integer ", "string ", "double ", "byte ", "int32 ", "int16 ", "array ", "if", "else", "for", "while", "each", "new", "bool", "true", "false"],
+		nonKeyword = [";", "}", "{"],
+		method = ["static", "protected", "function", "void", "public", "private", "interface", "abstract", "class"];	
+		
     $.fn.fancyHighlighter = function (options)
     {
         //Cache the text area.
         var textArea = $(this);
-
+		
         //Default options for the highlighter
         var defaults =
         {
@@ -37,41 +37,41 @@ var operator = ["var ", "console", "this", "extends", "int ", "integer ", "strin
             *
             * @param text, settings
             */
-            highlight: function (text, settings)
+            highlight: function (input, settings)
             {
-                //Replace comments with regular expressions
-                text = text.replace(/\/\/(.*?)\n/g, "<span style='color:" + settings.comments + "'>" + "//$1\n" + "</span>");
-
                 //Replace methods
-                text = methods.highlightMultiple(text, method, settings.method);
+                input = methods.highlightMultiple(input, method, settings.method);
 
                 //Replace operators
-                text = methods.highlightMultiple(text, operator, settings.operator);
+                input = methods.highlightMultiple(input, operator, settings.operator);
 
                 //Replace nonKeyword
-                text = methods.highlightMultiple(text, nonKeyword, settings.nonKeyword);
+                input = methods.highlightMultiple(input, nonKeyword, settings.nonKeyword);
 
                 //Replace Strings with regular expressions.
-                text = text.replace(/"(.*?)"/g, "<span style='color:" + settings.strings + "'>" + "'$1'" + "</span>");
+                input = input.replace(/"(.*?)"/g, "<span style='color:" + settings.strings + "'>" + "'$1'" + "</span>");
+				
+				//Replace comments with regular expressions
+                input = input.replace(/\/\/(.*?)\n/g, "<span style='color:" + settings.comments + " !important;'>" + "//$1\n" + "</span>");
 
                 //Return the highlighted text.
-                return text;
+                return input;
             },
             /**
             * Highlight function
             *
             * @param text, collection, color
             */
-            highlightMultiple: function (text, collection, color)
+            highlightMultiple: function (text2, collection, color)
             {
                 //Loop through all the items in the array and highlight them in the text.
                 $.each(collection, function (key, value)
                 {
-                    text = text.replace(new RegExp(value, "g"), "<span style='color:" + color + "'>" + value + "</span>");
+                    text2 = text2.replace(new RegExp(value, "g"), "<span style='color:" + color + "'>" + value + "</span>");
                 });
 
                 //Return the highlighted text.
-                return text;
+                return text2;
             }
         };
 
@@ -94,13 +94,19 @@ var operator = ["var ", "console", "this", "extends", "int ", "integer ", "strin
         //Highlight the initial text.
         $(settings.target).html(methods.highlight(text, settings));
             
-        //Bind the onpropertychange even to the text area.
-        textArea.bind('input propertychange', function ()
+		//console.log("moo");	
+			
+        //Bind the onpropertychange event to the text area.
+        $(document).on('change keyup paste, .input', function (event)
         {
             text = textArea.val();
+			//console.log(textArea);
+			//console.log(textArea.text());			
             $(settings.target).html(methods.highlight(text, settings));
         });
 
+		//console.log("bla");
+		
         //Prevent the textarea from skipping the tab button, as this is after all a code editor.
         textArea.keydown(function (e)
         {
